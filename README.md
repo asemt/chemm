@@ -35,5 +35,6 @@ Anschließend kann durch den [Login in Grafana](http://localhost:3000/login) (Be
 - `grok_apache2_request_latency_microseconds`
 - `grok_apache2_response_size_bytes`
 
+**Nachdem** eine Datenquelle namens `Prometheus` angelegt worden ist, kann man das Beispiel-Dashboard mithilfe der Export-Datei [exported_dashboard__Webserver_Access_Log_Metrics-1711999601678.json](file:///exported_dashboard__Webserver_Access_Log_Metrics-1711999601678.json) importieren.
 
 Fragen zur vorgestellen Lösung beantworte ich gern im persönlichen Gespräch.
