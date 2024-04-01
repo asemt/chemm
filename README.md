@@ -27,7 +27,7 @@ Dann ist die Datei `/etc/hosts` anzupassen, so dass die beispielhaft im Apache2 
 127.0.0.1 example-domain2.org
 ```
 
-Danach kann dann durch Aufrufen der Apache2 Server-Status URLs für [example-domain1.org](http://example-domain1.org:8080/server-status) sowie [example-domain2.org](http://example-domain2.org:8080/server-status) Web-Traffic erzeugt werden, aus denen dann wiederum die Metriken extrahiert werden können. 
+Danach kann man durch Aufrufen der Apache2 Server-Status URLs für [example-domain1.org:8080/server-status](http://example-domain1.org:8080/server-status) sowie [example-domain2.org:8080/server-status](http://example-domain2.org:8080/server-status) Testdaten generieren, aus denen dann automatisiert Metriken extrahiert werden. 
 
 Anschließend kann durch den [Login in Grafana](http://localhost:3000/login) (Benutzername `admin` und Passwort `grafana`) Prometheus als Datenquelle konfiguriert (`Prometheus server URL`: `http://prometheus:9090`) und Metrik-Abfragen wie [hier beschrieben](https://prometheus.io/docs/visualization/grafana/) angelegt werden. Dabei stehen folgende aus den Apacha2 Access Log-Dateien extrahierte Metriken zur Verfügung (diese sind in der Datei `grok_exporter_config.yml` definiert), jeweils nach Virtual Host (_vHost_) getrennt aufgeführt (symbolisiert durch die beiden unterschiedlichen Farben im obigen Dashboard Sreenshot):
 
