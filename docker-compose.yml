@@ -1,0 +1,43 @@
+---
+
+services:
+
+  apache2_and_grok-exporter:
+    image: docker.io/asemt/chemm-apache2_and_grok_exporter:0.1
+    container_name: apache2_grok_exporter
+    ports:
+      - "8080:80/tcp"
+    restart: unless-stopped
+    networks:
+      - promnet
+
+  prometheus:
+    image: prom/prometheus:v2.51.1
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090/tcp"
+    restart: unless-stopped
+    depends_on:
+      - apache2_and_grok-exporter
+    networks:
+      - promnet
+
+  grafana:
+    image: grafana/grafana:10.1.9
+    container_name: grafana
+    ports:
+      - "3000:3000/tcp"
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./grafana_volume:/etc/grafana/provisioning/datasources
+    networks:
+      - promnet
+
+networks:
+  promnet:
+    driver: bridge

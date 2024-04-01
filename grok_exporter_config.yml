@@ -1,0 +1,53 @@
+---
+
+global:
+    config_version: 3
+
+input:
+    type: file
+    paths:
+      - /var/log/apache2/latest/example-domain1.org.access.log
+      - /var/log/apache2/latest/example-domain2.org.access.log
+    poll_interval: 2s # normally not needed, but in container context it was (maybe also related to runit)
+    readall: false
+
+imports:
+  - type: grok_patterns
+    dir: /root/patterns
+
+# original source: https://github.com/IORoot/prometheus__grok--apache2/blob/fc69df6885eaf72f7a8c5b99c0675fa51aef711d/apache_responses.yml
+metrics:
+    - type: counter
+      name: grok_apache2_responses_total
+      help: Apache2 Logs - Total number of Responses
+      match: '\[%{HTTPDATE:timestamp}\] %{USER:ident} %{USER:auth} %{IPORHOST:clientip} "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes_sent}|-) %{NOTSPACE:referer} %{QUOTEDSTRING:user_agent} %{INT:request_microseconds} %{URIPATH:filename} %{URIHOST:vhost}'
+      labels:
+        response: '{{.response}}'
+        vhost:    '{{.vhost}}'
+
+    - type: gauge
+      name: grok_apache2_request_latency_microseconds
+      help: Apache2 Logs - Request Latency
+      match: '\[%{HTTPDATE:timestamp}\] %{USER:ident} %{USER:auth} %{IPORHOST:clientip} "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes_sent}|-) %{NOTSPACE:referer} %{QUOTEDSTRING:user_agent} %{INT:request_microseconds} %{URIPATH:filename} %{URIHOST:vhost}'
+      value: '{{.request_microseconds}}'
+      cumulative: false
+      labels:
+        response: '{{.response}}'
+        filename: '{{.filename}}'
+        vhost:    '{{.vhost}}'
+
+    - type: gauge
+      name: grok_apache2_response_size_bytes
+      help: Apache2 Logs - Size of response including headers in bytes
+      match: '\[%{HTTPDATE:timestamp}\] %{USER:ident} %{USER:auth} %{IPORHOST:clientip} "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes_sent}|-) %{NOTSPACE:referer} %{QUOTEDSTRING:user_agent} %{INT:request_microseconds} %{URIPATH:filename} %{URIHOST:vhost}'
+      value: '{{.bytes_sent}}'
+      cumulative: false
+      labels:
+        vhost: '{{.vhost}}'
+        filename: '{{.filename}}'
+
+
+server:
+    port: 9145
+    path: /metrics
+

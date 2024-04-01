@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+
+exec /usr/local/bin/grok_exporter -disable-exporter-metrics -config /root/grok_exporter_config.yml
+
