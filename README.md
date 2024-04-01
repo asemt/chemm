@@ -8,7 +8,7 @@ Wie gefordert (Aufgabe 3.1), skizziere ich hier eine Lösung, wie Kennzahlen (Me
 
 Dabei ist zu beachten, das die dargestellte Lösung als Prototyp zu verstehen ist und keinesfalls in dieser Form produktiv eingesetzt werden sollte.
 
-Auf Basis der verwendeten Werkzeuge lässt sich dann dieses beispielhafte _Grafana Dashboard_ erstellen (**nicht** Teil des Git Repository!):
+Auf Basis der verwendeten Werkzeuge lässt sich dann dieses beispielhafte _Grafana Dashboard_ erstellen (in der Datei `exported_dashboard__Webserver_Access_Log_Metrics-1711999601678.json` enthalten):
 
 ![Grafana Dashboard](example_grafana_dashboard.png)
 
