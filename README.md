@@ -1,6 +1,6 @@
 # Webserver (apache2) access log metrics with Prometheus
 
-Wie gefordert (Aufgabe "3a"), skizziere ich hier eine Lösung, wie Kennzahlen (Metriken) aus [Apache2](https://httpd.apache.org/) Access Log Dateien mithilfe folgender Open source Werkzeuge extrahiert und visualisiert werden können:
+Wie gefordert (Aufgabe 3.1), skizziere ich hier eine Lösung, wie Kennzahlen (Metriken) aus [Apache2](https://httpd.apache.org/) Access Log Dateien mithilfe folgender Open source Werkzeuge extrahiert und visualisiert werden können:
 
 - [grok_exporter](https://github.com/sysdiglabs/grok_exporter)
 - [Prometheus](https://prometheus.io/)
